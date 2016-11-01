@@ -11,13 +11,7 @@ function [ w ] = Ridge( X, y, par )
 % Author: Alexandr Katrutsa, 2016
 % E-mail: aleksandr.katrutsa@phystech.edu
 
-k = 0:0.0001:0.05; % See for limit value of k
-W = ridge(y, X, k);
-rss = zeros(1, size(W, 2));
-for i = 1:size(W, 2)
-    rss(i) = sumsqr(y - X * W(:, i));
-end
-
-[~, idx_min] = min(rss);
-w = W(:, idx_min);
+[W, fitinfo] = lasso(X, y, 'Alpha', 1e-2, 'CV', 5);
+fprintf('Corresponding lambda = %d\n', fitinfo.LambdaMinMSE);
+w = W(:, fitinfo.IndexMinMSE);
 end

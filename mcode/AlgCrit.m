@@ -52,10 +52,10 @@ for it = 1:iter
     else
         fprintf('The field parameters.data must be equal "artificial" or "real"!\n')    
     end
-    len = sum(X.^2).^0.5;
+%     len = sum(X.^2).^0.5;
     X_def = X;
-    X = X./repmat(len, size(X, 1), 1);
-    y = y ./ norm(y);
+%     X = X./repmat(len, size(X, 1), 1);
+%     y = y ./ norm(y);
     beta = lscov(X, y);
     rss_all = sumsqr(y - X * beta);
     tss_all = sumsqr(y - mean(y));

@@ -24,7 +24,7 @@ else
         Q = zeros(size(X, 2));
         for i = 1:size(Q, 2)
             for j = i:size(Q, 2)
-                Q(i, j) = mi(X(:, i), X(:, j));
+                Q(i, j) = mutualinfo(X(:, i), X(:, j));
             end
         end
         Q = Q + Q' - diag(diag(Q));
@@ -37,7 +37,7 @@ end
 if strcmp(rel, 'mi')
     b = zeros(size(X, 2), 1);
     for i = 1:size(X, 2)
-        b(i) = mi(y, X(:, i));
+        b(i) = mutualinfo(y, X(:, i));
     end
     return
 end

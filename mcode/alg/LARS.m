@@ -239,14 +239,16 @@ end
       info.AIC(step) = rss + 2*sigma2e*info.df(step);
       info.BIC(step) = rss + log(n)*sigma2e*info.df(step);
       info.s(step) = sum(abs(b(A,step)))/penalty0;
+      info.rss(step) = rss;
     end
     
   else % for single solution
     info.s = sum(abs(b))/penalty0;
     info.df = info.steps;
   end
-  [~, idx_min] = min(info.Cp);
-  b = b(:, idx_min);
+%   [~, idx_min] = min(info.Cp);
+    [~, idx_min] = min(info.rss);
+    b = b(:, idx_min);
 % end
 end
 

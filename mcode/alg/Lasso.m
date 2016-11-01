@@ -11,8 +11,8 @@ function [w] = Lasso(X, y, par)
 % Author: Alexandr Katrutsa, 2016
 % E-mail: aleksandr.katrutsa@phystech.edu
 
-[W, fitinfo] = lasso(X, y);
-[~, idx_minMSE] = min(fitinfo.MSE);
-w = W(:, idx_minMSE);
+[W, fitinfo] = lasso(X, y, 'CV', 5);
+fprintf('Corresponding lambda = %d\n', fitinfo.LambdaMinMSE);
+w = W(:, fitinfo.IndexMinMSE);
 end
 

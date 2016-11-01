@@ -11,8 +11,8 @@ function [ w ] = ElasticNet(X, y, par)
 % Author: Alexandr Katrutsa, 2016 
 % E-mail: aleksandr.katrutsa@phystech.edu
 
-[W, inf] = lasso(X, y, 'Alpha', 0.5);
-[~, idx_min] = min(inf.MSE);
-w = W(:, idx_min);
+[W, inf] = lasso(X, y, 'Alpha', 0.5, 'CV', 5);
+fprintf('Corresponding lambda = %d\n', inf.LambdaMinMSE);
+w = W(:, inf.IndexMinMSE);
 end
 

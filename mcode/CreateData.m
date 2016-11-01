@@ -1,4 +1,4 @@
-function [X, target] = CreateData( m, features, par )
+function [ X ] = CreateData( m, features, par )
 % Function creates design matrix according to values of the
 % features structure fields
 %
@@ -21,15 +21,8 @@ function [X, target] = CreateData( m, features, par )
 % Output:
 % X - [m, total_features] - matrix with test data set
 %
-% Author: Alexandr Katrutsa, 2016 
+% Author: Alexandr Katrutsa, 2014-2015 
 % E-mail: aleksandr.katrutsa@phystech.edu
-
-if strcmp(par.data, 'real')
-    load(par.real_data_filename);
-    X = eval(par.real_data_X);
-    target = eval(par.real_data_y);
-    return
-end
 
 random = features.rand_features;
 ortfeat = features.ortfeat_features;
@@ -56,10 +49,9 @@ end
 
 if (ortfeat > 0)
     vec_1 = zeros(size(target, 1), 1);
-    vec_1(1:2:end) = target(1:2:end) - mean(target(1:2:end));
+    vec_1(1:2:end) = target(1:2:end);
     vec_2 = zeros(size(target, 1), 1);
-    vec_2(2:2:end) = target(2:2:end) - mean(target(2:2:end));
-    target = vec_1 + vec_2;
+    vec_2(2:2:end) = target(2:2:end);
     if(ortfeat < 3)
         mat_ortfeat = [vec_1, vec_2];
     else
@@ -104,7 +96,6 @@ end
 % collinearing each other
 mat_ortcol = zeros(m, ortcol);
 if ortcol > 0
-    target = target - mean(target);
     mat_ort_coltarget = null(target');
     mid = floor(size(mat_ort_coltarget, 2) / 2);
     for i = 1:ortcol
