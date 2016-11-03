@@ -24,10 +24,16 @@ else
         Q = zeros(size(X, 2));
         for i = 1:size(Q, 2)
             for j = i:size(Q, 2)
-                Q(i, j) = mutualinfo(X(:, i), X(:, j));
+                Q(i, j) = information(X(:, i)', X(:, j)');
+%                 Q(i, j) = mutualinfo(X(:, i), X(:, j));
             end
         end
         Q = Q + Q' - diag(diag(Q));
+    end
+    lambdas = eig(Q);
+    min_lambda = min(lambdas);
+    if min_lambda < 0
+        Q = Q - min_lambda * eye(size(Q, 1));
     end
 end
 if strcmp(rel, 'correl')
@@ -37,7 +43,8 @@ end
 if strcmp(rel, 'mi')
     b = zeros(size(X, 2), 1);
     for i = 1:size(X, 2)
-        b(i) = mutualinfo(y, X(:, i));
+        b(i) = information(y', X(:, i)');
+%         b(i) = mutualinfo(y, X(:, i));
     end
     return
 end

@@ -1,4 +1,4 @@
-function [ matAlgCrit ] = AlgCrit(alg, crit, objects, features, parameters)
+function [ matAlgCrit, W ] = AlgCrit(alg, crit, X, y, parameters)
 % Function computes values of every considered criteria for result
 % given every feature selection method
 %
@@ -6,11 +6,8 @@ function [ matAlgCrit ] = AlgCrit(alg, crit, objects, features, parameters)
 % alg - cell array with names of the algorithms to solve regression problem 
 %                using feature selection for given design matrix X and target vector y
 % crit - cell array with name of criterias using to test feature selection methods from alg
-% objects - [1, 1] - number of the objects in generated data set, 
-%                    the number of rows in the matrix X
-% features - [1, 1] - number of features in generated data set,
-%                     the number of columns in the matrix X,
-%                     the dimension of the data
+% X - [num_objects, num_features] - design matrix
+% y - [num_objects, 1] - target vector
 % parameters - structure with following parameters:
 %              multpar - [1, 1] - parameter of the multicollinearity, 
 %                                 if it equals 1, the data is full correlated
@@ -27,31 +24,36 @@ function [ matAlgCrit ] = AlgCrit(alg, crit, objects, features, parameters)
 %              mat-file, which corresponds to the real data target vector
 % 
 % Output:
-% matAlgCrit - [length(alg), length(crit)] - matrix contain the values, 
+% matAlgCrit_train - [length(alg), length(crit)] - matrix contain the values, 
 %                                            which are returned every criteria for 
-%                                            every feature selection method 
+%                                            every feature selection method
+%                                            for train set
+% matAlgCrit_train - [length(alg), length(crit)] - matrix contain the values, 
+%                                            which are returned every criteria for 
+%                                            every feature selection method
+%                                            for test set
 %
 % Author: Alexandr Katrutsa, 2016
 % E-mail: aleksandr.katrutsa@phystech.edu
 
 iter = parameters.iter;
 threshold = parameters.threshold;
-if strcmp(parameters.data, 'real')
-    crit(6) = [];
-end
+% if strcmp(parameters.data, 'real')
+%     crit(6) = [];
+% end
 matAlgCrit = zeros(length(alg), length(crit));
 for it = 1:iter
-    if (strcmp('real', parameters.data))
-        load(parameters.real_data_filename);
-        X = eval(parameters.real_data_X);
-        y = eval(parameters.real_data_y);
-    elseif (strcmp('artificial', parameters.data))
-        parameters.target = randi(1.5 * objects, objects, 1);
-        X = CreateData(objects, features, parameters);
-        y = parameters.target;
-    else
-        fprintf('The field parameters.data must be equal "artificial" or "real"!\n')    
-    end
+%     if (strcmp('real', parameters.data))
+%         load(parameters.real_data_filename);
+%         X = eval(parameters.real_data_X);
+%         y = eval(parameters.real_data_y);
+%     elseif (strcmp('artificial', parameters.data))
+%         parameters.target = randi(1.5 * objects, objects, 1);
+%         X = CreateData(objects, features, parameters);
+%         y = parameters.target;
+%     else
+%         fprintf('The field parameters.data must be equal "artificial" or "real"!\n')    
+%     end
 %     len = sum(X.^2).^0.5;
     X_def = X;
 %     X = X./repmat(len, size(X, 1), 1);
