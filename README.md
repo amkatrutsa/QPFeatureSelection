@@ -2,7 +2,7 @@
 
 ## About 
 
-This repository presents quadratic programming feature selection approach to solve multicollinearity problem [A. Katrutsa, V. Srijov, 2016](http://www.sciencedirect.com/science/article/pii/S0957417417300635).
+This repository presents quadratic programming feature selection approach to solve multicollinearity problem [[A. Katrutsa, V. Srijov, 2016]](http://www.sciencedirect.com/science/article/pii/S0957417417300635).
 Multicollinearity in data leads to unstability, redundancy and excessive complexity of the built regression model.
 To treat multicollinearity problem we state the quadratic optimization problem which is convex and has the single optimum.
 This problem statement formalizes non redundancy and relevance requirements.
